@@ -1,0 +1,63 @@
+@import './variables';
+
+$primary-color: #ff0062;
+
+.searchContainer{
+    display: block;
+    position: absolute;
+    top: 100px;
+    left:30px;
+    width: 25%;
+    min-width: 300px;
+    max-width: 400px;
+    max-height: 75%;
+    background: $white;
+
+    .searchList {
+        bottom: 10px;
+        padding: 0%;
+
+        .listItem {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+    }
+
+    .advanceSearchList {
+        max-height: 160px;
+        overflow: auto;
+        padding: 0%;
+
+        .listItem {
+            padding-bottom: 0;
+        }
+    }
+
+    .Icon {
+        color: $primary-color;
+      }
+
+    .bottom {
+        display: flex;
+        flex-direction: row; 
+        
+        .searchButtonDiv {
+            flex: auto; 
+        }
+    }
+}
+
+.devider{
+    color: $primary-color;
+    background-color: $primary-color;
+    border: 1.5px solid $primary-color;
+    border-radius: 5px;
+    vertical-align: top;
+    margin-top: 0%;
+}
+
+
+
+
+
+
