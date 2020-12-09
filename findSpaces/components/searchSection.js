@@ -12,6 +12,8 @@ import EventNoteIcon from '@material-ui/icons/EventNote';
 import EventAvailableIcon from '@material-ui/icons/EventAvailable';
 import ApartmentIcon from '@material-ui/icons/Apartment';
 import { PrimaryButton } from '../../../components/common/buttons';
+import RangeSlider from './rangeSlider';
+import InlineDatePickerDemo from './datePicker';
 
 const SearchSection = () => (
     <Card className="searchContainer">
@@ -20,6 +22,7 @@ const SearchSection = () => (
                 Search
             </Typography>
             <hr className="devider" />
+            <InlineDatePickerDemo/>
             <List className="searchList">
                 <ListItem button className="listItem">
                     <ListItemAvatar>
@@ -51,8 +54,8 @@ const SearchSection = () => (
             </Typography>
             <hr className="devider" />
             <List className="advanceSearchList">
-                <ListItem button className="listItem">
-                    <ListItemText primary="Price per Squre meter" />
+                <ListItem className="listItem">
+                    <RangeSlider className="priceRange" />
                 </ListItem>
                 <ListItem button className="listItem">
                     <ListItemText primary="Kitchen" />
