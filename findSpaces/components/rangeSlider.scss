@@ -1,0 +1,36 @@
+.rangeSlider {
+    .MuiSlider-root {
+        color: #000000;
+        width: 300px;
+        height: 10px;
+    }
+
+    .rangeValues {
+        display: flex;
+        font-family: Montserrat;
+
+        .value1 {
+            margin-right: 180px;
+            font-size: 15px;
+        }
+
+        .value2 {
+            font-size: 15px;
+        }
+    }
+
+    .MuiSlider-thumb {
+        color: #000000;
+        margin-top: -8px;
+        width: 20px;
+        height: 20px;
+    }
+
+    .MuiSlider-rail {
+        height: 5px;
+    }
+
+    .MuiSlider-track {
+        height: 5px;
+    }
+}
