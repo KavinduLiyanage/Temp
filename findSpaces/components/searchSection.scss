@@ -28,9 +28,14 @@ $primary-color: #ff0062;
         overflow: auto;
         padding: 0%;
 
+        .priceRange {
+            color: black;
+            background-color: black;
+        }
+
         .listItem {
             padding-bottom: 0;
-        }
+        }        
     }
 
     .Icon {
