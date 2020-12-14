@@ -4,12 +4,11 @@ import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
 import WifiIcon from '@material-ui/icons/Wifi';
 import ApartmentIcon from '@material-ui/icons/Apartment';
 import LocalParkingIcon from '@material-ui/icons/LocalParking';
-import { Box, Divider } from '@material-ui/core';
+import { Divider } from '@material-ui/core';
 import { PrimaryButton } from '../../../components/common/buttons';
 
 const InfoWindowCard = ({ title, price, period, mainRating, votes, dealRating }) => (
@@ -18,26 +17,26 @@ const InfoWindowCard = ({ title, price, period, mainRating, votes, dealRating })
             <div className="details">
                 <CardContent className="content">
                     <div className="top">
-                        <Typography className="price" component="h6" variant="h6">
+                        <h6 className="price" component="h6" variant="h6">
                             {price}$
-                        </Typography>
-                        <Typography className="period" component="h6" variant="h6">
+                        </h6>
+                        <h6 className="period" component="h6" variant="h6">
                             {period}
-                        </Typography>
-                        <Typography className="mainRating" component="h6" variant="h6">
+                        </h6>
+                        <h6 className="mainRating" component="h6" variant="h6">
                             {mainRating}
-                        </Typography>
-                        <Typography className="votes" component="h6" variant="h6">
-                            {votes}
-                        </Typography>
+                        </h6>
+                        <h6 className="votes" component="h6" variant="h6">
+                            {votes} votes
+                        </h6>
                     </div>
                     <Divider />
-                    <Typography className="title" component="h6" variant="h6">
+                    <h6 className="title" component="h6" variant="h6">
                         {title}
-                    </Typography>
-                    <Typography className="mainFeatures" variant="subtitle1" color="textSecondary">
+                    </h6>
+                    <h6 className="mainFeatures" variant="subtitle1" color="textSecondary">
                         Main features
-                    </Typography>
+                    </h6>
                     <div className="controls">
                         <WifiIcon className="icon" />
 
@@ -47,14 +46,12 @@ const InfoWindowCard = ({ title, price, period, mainRating, votes, dealRating })
 
                         <LocalParkingIcon className="icon" />
                     </div>
-                    <Typography className="mainFeatures" variant="subtitle1" color="textSecondary">
+                    <h6 className="mainFeatures" variant="subtitle1" color="textSecondary">
                         Overall deal rating
-                    </Typography>
-                    <Typography>
-                        <Box fontSize={18} fontWeight="fontWeightBold" m={1}>
-                            <div className="dealRating">{dealRating}</div>
-                        </Box>
-                    </Typography>
+                    </h6>
+                    <h6>
+                        <div className="dealRating">{dealRating}</div>
+                    </h6>
                 </CardContent>
             </div>
             <div className="right">

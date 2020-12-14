@@ -1,19 +1,30 @@
-import React, { Fragment, useState } from "react";
-import { DatePicker, KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import React from 'react';
 
-function InlineDatePickerDemo(props) {
-  const [selectedDate, handleDateChange] = useState(new Date());
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
 
-  return (
-    <MuiPickersUtilsProvider>
-      <DatePicker
-        variant="inline"
-        label="Basic example"
-        value={selectedDate}
-        onChange={handleDateChange}
-      />
-    </MuiPickersUtilsProvider>
-  );
-}
-
-export default InlineDatePickerDemo;
+export const DatePicker = ({
+    value = '',
+    handleDateChange = () => {},
+    inputAdormantPosition = 'end',
+    className = '',
+    placeholder = '',
+    ...props
+}) => {
+    return (
+        <MuiPickersUtilsProvider utils={MomentUtils}>
+            <KeyboardDatePicker
+                autoOk
+                variant="inline"
+                inputVariant="outlined"
+                format="MM/DD/YYYY"
+                inputValue=""
+                value={value}
+                InputAdornmentProps={{ position: inputAdormantPosition }}
+                onChange={handleDateChange}
+                placeholder={placeholder}
+                {...props}
+            />
+        </MuiPickersUtilsProvider>
+    );
+};
