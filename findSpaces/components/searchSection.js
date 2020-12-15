@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable react/jsx-indent-props */
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -14,25 +15,23 @@ import EventAvailableIcon from '@material-ui/icons/EventAvailable';
 import ApartmentIcon from '@material-ui/icons/Apartment';
 import { PrimaryButton } from '../../../components/common/buttons';
 import RangeSlider from './rangeSlider';
-import { SimpleSelecter } from './selecter';
-import { BasicDateRangePicker } from './dateRangePicker';
+import BasicDateRangePicker from './dateRangePicker';
+import SimpleSelecter from './selecter';
 
 const SearchSection = () => {
+    const [title, setTitle] = useState('');
+
+    const handleTitleChange = event => {
+        setTitle(event.target.value);
+    };
+
     const formik = useFormik({
         initialValues: {
-            // where: '',
-            // when: '',
-            // duration: '',
-            // what: '',
             term: '',
+            when: title,
         },
-        validationSchema: Yup.object({
-            //where: Yup.string().max(15, 'Must be 15 characters or less').required('Required'),
-            // when: Yup.string().max(15, 'Must be 15 characters or less').required('Required'),
-            // duration: Yup.string().max(15, 'Must be 15 characters or less').required('Required'),
-            // what: Yup.string().max(15, 'Must be 15 characters or less').required('Required'),
-            term: Yup.string().required('Required'),
-        }),
+        enableReinitialize: true,
+        validationSchema: Yup.object({}),
         onSubmit: values => {
             alert(JSON.stringify(values, null, 2));
         },
@@ -55,7 +54,15 @@ const SearchSection = () => {
                             <ListItemAvatar>
                                 <EventNoteIcon className="Icon" />
                             </ListItemAvatar>
-                            <BasicDateRangePicker />
+                            <BasicDateRangePicker
+                                onTitleChange={handleTitleChange}
+                                title={title}
+                                id="when"
+                                name="when"
+                                value={formik.values.when}
+                                inputError={formik.touched.when && formik.errors.when}
+                                formClass="register-form__item"
+                            />
                         </ListItem>
                         <ListItem className="listItem">
                             <ListItemAvatar>

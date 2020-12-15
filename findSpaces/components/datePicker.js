@@ -1,16 +1,11 @@
+/* eslint-disable react/jsx-indent-props */
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 
-export const DatePicker = ({
-    value = '',
-    handleDateChange = () => {},
-    inputAdormantPosition = 'end',
-    className = '',
-    placeholder = '',
-    ...props
-}) => {
+const DatePicker = ({ value = '', handleDateChange = () => {}, inputAdormantPosition = 'end', className = '', placeholder = '', ...props }) => {
     return (
         <MuiPickersUtilsProvider utils={MomentUtils}>
             <KeyboardDatePicker
@@ -28,3 +23,5 @@ export const DatePicker = ({
         </MuiPickersUtilsProvider>
     );
 };
+
+export default DatePicker;
