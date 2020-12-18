@@ -1,54 +1,60 @@
 /* eslint-disable react/jsx-indent-props */
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { DateRangePicker } from 'materialui-daterange-picker';
 import { TextField } from '@material-ui/core';
 import Popover from '@material-ui/core/Popover';
-import { format, differenceInDays } from 'date-fns';
+import { format } from 'date-fns';
 
-const BasicDateRangePicker = ({ when, formClass, inputError, name, ...props }) => {
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const [dateRange, setDateRange] = React.useState('');
-    const [setDateDif] = React.useState('');
-    const [open2, setOpen2] = React.useState(true);
+const mapToEvent = (name, value) => {
+    return {
+        persist: () => {},
+        target: {
+            type: 'change',
+            id: name,
+            name,
+            value,
+        },
+    };
+};
+
+const BasicDateRangePicker = ({ when, formClass, inputError, name, onChange, ...props }) => {
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [dateRange, setDateRange] = useState('');
+    const [popOverOpen, setPopOverOpen] = useState(true);
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
     const today = new Date();
 
     const handleClick = event => {
         setAnchorEl(event.currentTarget);
-        setOpen2(true);
+        setPopOverOpen(true);
     };
 
     const handleClose = () => {
         setAnchorEl(null);
-        setOpen2(false);
+        setPopOverOpen(false);
     };
 
     const toggle = () => {
         setAnchorEl(null);
-        setOpen2(false);
+        setPopOverOpen(false);
     };
 
     const afterSelect = range => {
         setAnchorEl(null);
-        setOpen2(false);
+        setPopOverOpen(false);
+
+        const dateTarget = range;
         setDateRange(`${format(range.startDate, 'MMM dd')} - ${format(range.endDate, 'MMM dd')}`);
-        setDateDif(differenceInDays(range.endDate, range.startDate));
+
+        onChange(mapToEvent(name, dateTarget));
     };
 
     return (
-        <div>
-            <TextField
-                label="When"
-                InputProps={{ disableUnderline: true }}
-                onClick={handleClick}
-                id="standard-basic"
-                onFocus={props.onTitleChange}
-                value={dateRange}
-                {...props}
-            />
+        <div className="dateRangePicker">
+            <TextField disabled label="When" InputProps={{ disableUnderline: true }} onClick={handleClick} id="standard-basic" value={dateRange} />
             <Popover
                 id={id}
                 open={open}
@@ -63,7 +69,12 @@ const BasicDateRangePicker = ({ when, formClass, inputError, name, ...props }) =
                     horizontal: 'center',
                 }}
             >
-                <DateRangePicker minDate={today.setDate(today.getDate() - 1)} open={open2} toggle={toggle} onChange={range => afterSelect(range)} />
+                <DateRangePicker
+                    minDate={today.setDate(today.getDate() - 1)}
+                    open={popOverOpen}
+                    toggle={toggle}
+                    onChange={range => afterSelect(range)}
+                />
             </Popover>
         </div>
     );
@@ -74,7 +85,7 @@ BasicDateRangePicker.propTypes = {
     formClass: PropTypes.string,
     inputError: PropTypes.string,
     name: PropTypes.string,
-    onTitleChange: PropTypes.string,
+    onChange: PropTypes.func,
 };
 
 BasicDateRangePicker.defaultProps = {
@@ -82,7 +93,7 @@ BasicDateRangePicker.defaultProps = {
     formClass: '',
     inputError: '',
     name: '',
-    onTitleChange: '',
+    onChange: '',
 };
 
 export default BasicDateRangePicker;

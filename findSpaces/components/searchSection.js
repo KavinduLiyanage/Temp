@@ -4,10 +4,10 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import Card from '@material-ui/core/Card';
+import { TextField } from '@material-ui/core';
 import CardContent from '@material-ui/core/CardContent';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import EventNoteIcon from '@material-ui/icons/EventNote';
@@ -17,25 +17,30 @@ import { PrimaryButton } from '../../../components/common/buttons';
 import RangeSlider from './rangeSlider';
 import BasicDateRangePicker from './dateRangePicker';
 import SimpleSelecter from './selecter';
+import LocationSearchInput from './locationSearch';
+import Util from '../../../helpers/util';
 
 const SearchSection = () => {
-    const [title, setTitle] = useState('');
-
-    const handleTitleChange = event => {
-        setTitle(event.target.value);
-    };
+    const [dateDif, setDateDif] = useState('');
 
     const formik = useFormik({
         initialValues: {
-            term: '',
-            when: title,
+            where: '',
+            when: '',
+            what: '',
         },
-        enableReinitialize: true,
         validationSchema: Yup.object({}),
         onSubmit: values => {
+            console.log(JSON.stringify(values, null, 2));
             alert(JSON.stringify(values, null, 2));
         },
     });
+
+    const getDuration = event => {
+        formik.handleChange(event);
+
+        setDateDif(Util.getDateRangeDuration(event.target.value));
+    };
 
     return (
         <form onSubmit={formik.handleSubmit} className="search-form">
@@ -44,21 +49,27 @@ const SearchSection = () => {
                     <h6>Search</h6>
                     <hr className="devider" />
                     <List className="searchList">
-                        <ListItem button className="listItem">
+                        <ListItem className="listItem">
                             <ListItemAvatar>
                                 <LocationOnIcon className="Icon" />
                             </ListItemAvatar>
-                            <ListItemText primary="Where" secondary="Manhattan, NYC" />
+                            <LocationSearchInput
+                                id="where"
+                                name="where"
+                                onChange={formik.handleChange}
+                                value={formik.values.where}
+                                inputError={formik.touched.where && formik.errors.where}
+                                formClass="register-form__item"
+                            />
                         </ListItem>
                         <ListItem className="listItem">
                             <ListItemAvatar>
                                 <EventNoteIcon className="Icon" />
                             </ListItemAvatar>
                             <BasicDateRangePicker
-                                onTitleChange={handleTitleChange}
-                                title={title}
                                 id="when"
                                 name="when"
+                                onChange={event => getDuration(event)}
                                 value={formik.values.when}
                                 inputError={formik.touched.when && formik.errors.when}
                                 formClass="register-form__item"
@@ -68,18 +79,18 @@ const SearchSection = () => {
                             <ListItemAvatar>
                                 <EventAvailableIcon className="Icon" />
                             </ListItemAvatar>
-                            <ListItemText primary="Duration" secondary="3 months" />
+                            <TextField disabled id="duration" label="Duration" value={dateDif} InputProps={{ disableUnderline: true }} />
                         </ListItem>
                         <ListItem className="listItem">
                             <ListItemAvatar>
                                 <ApartmentIcon className="Icon" />
                             </ListItemAvatar>
                             <SimpleSelecter
-                                id="term"
-                                name="term"
+                                id="what"
+                                name="what"
                                 onChange={formik.handleChange}
-                                value={formik.values.term}
-                                inputError={formik.touched.term && formik.errors.term}
+                                value={formik.values.what}
+                                inputError={formik.touched.what && formik.errors.what}
                                 formClass="register-form__item"
                             />
                         </ListItem>

@@ -8,7 +8,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { FormHelperText } from '@material-ui/core';
 
-const SimpleSelecter = ({ term, formClass, inputError, name, ...props }) => {
+const SimpleSelecter = ({ what, formClass, inputError, name, ...props }) => {
     return (
         <div className="selecter">
             <FormControl className={`formInput ${formClass}`} error={!!inputError}>
@@ -17,7 +17,7 @@ const SimpleSelecter = ({ term, formClass, inputError, name, ...props }) => {
                     disableUnderline
                     labelId="demo-simple-select-outlined-label"
                     id="demo-simple-select-outlined"
-                    value={term}
+                    value={what}
                     label="What"
                     name={name}
                     {...props}
@@ -33,14 +33,14 @@ const SimpleSelecter = ({ term, formClass, inputError, name, ...props }) => {
 };
 
 SimpleSelecter.propTypes = {
-    term: PropTypes.string,
+    what: PropTypes.string,
     formClass: PropTypes.string,
     inputError: PropTypes.string,
     name: PropTypes.string,
 };
 
 SimpleSelecter.defaultProps = {
-    term: '',
+    what: '',
     formClass: '',
     inputError: '',
     name: '',

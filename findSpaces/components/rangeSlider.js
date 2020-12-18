@@ -20,7 +20,7 @@ const RangeSlider = () => {
                 <h6 className="value1">{value[0]} USD</h6>
                 <h6 className="value2">{value[1]} USD</h6>
             </div>
-            <Slider max="1000" value={value} onChange={handleChange} aria-labelledby="range-slider" getAriaValueText={valuetext} />
+            <Slider max={1000} value={value} onChange={handleChange} aria-labelledby="range-slider" getAriaValueText={valuetext} />
         </div>
     );
 };
