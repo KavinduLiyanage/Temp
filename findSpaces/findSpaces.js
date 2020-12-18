@@ -1,29 +1,33 @@
+/* eslint-disable react/jsx-indent-props */
 import React, { useState, useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
+import appConfig from 'appConfig';
 import httpRequests from '../../helpers/httpRequests';
-import preQa from '../../config/pre-qa';
 import SearchSection from './components/searchSection';
 import InfoWindowCard from './components/infoWindowCard';
+import { PrimaryButton } from '../../components/common/buttons';
 
 const containerStyle = {
     width: '100%',
     height: '80vh',
 };
 
-const divStyle = {
-    background: 'black',
-    border: '1px solid #ccc',
-    padding: 15,
+const options = {
+    zoomControl: false,
+    mapTypeControl: false,
+    scaleControl: false,
+    streetViewControl: false,
+    rotateControl: false,
+    fullscreenControl: false,
 };
 
 const loadMap = () => {
-    const [zoom, setZoom] = useState(11);
-    const [geolocationAvailablity, setGeolocationAvailablity] = useState(true);
-    const [center, setCenter] = useState({});
-    const [latitude, setLatitude] = useState('');
-    const [longitude, setlongitude] = useState('');
-    const [openInfoWindowMarkerCoordinates, setoOpenInfoWindowMarkerCoordinates] = useState('');
-    const [nearbyLocations, setnearbyLocations] = useState([
+    const [zoom] = useState(11);
+    const [mapView, setMapView] = useState(true);
+    const [mapStyle, setMapStyle] = useState('map');
+    const [center, setCenter] = useState({ lat: 6.8649, lng: 79.8997 });
+    const [openInfoWindowMarkerCoordinates, setOpenInfoWindowMarkerCoordinates] = useState();
+    const [nearbyLocations] = useState([
         {
             id: 1,
             location: { lat: 6.8649, lng: 79.8997 },
@@ -36,53 +40,59 @@ const loadMap = () => {
 
     useEffect(() => {
         httpRequests.getUserLocation().then(response => {
-            setLatitude(response.data.location.lat);
-            setlongitude(response.data.location.lng);
             setCenter(response.data.location);
         });
-    }, [geolocationAvailablity]);
-
-    useEffect(() => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                position => {
-                    setLatitude(position.coords.latitude);
-                    setlongitude(position.coords.longitude);
-                },
-                error => {
-                    setGeolocationAvailablity(false);
-                },
-                { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-            );
-        } else {
-            setgeolocation(false);
-        }
     }, []);
 
+    useEffect(() => {
+        if (mapView === true) {
+            setMapStyle('map');
+        } else {
+            setMapStyle('map-half');
+        }
+    }, [mapView]);
+
     return (
-        <div>
-            <div className="map">
-                {latitude && longitude && (
-                    <LoadScript googleMapsApiKey={preQa.google_api_key}>
-                        <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={zoom} clickableIcons={false}>
+        <div className="wrapper-map">
+            <LoadScript libraries={['places']} googleMapsApiKey={appConfig.google_api_key}>
+                <div className={mapStyle}>
+                    {center && (
+                        <GoogleMap
+                            mapContainerStyle={containerStyle}
+                            center={center}
+                            zoom={zoom}
+                            clickableIcons={false}
+                            options={options}
+                            onClick={() => setOpenInfoWindowMarkerCoordinates('')}
+                        >
                             <Marker position={center} />
-                            {nearbyLocations.map(propertyCoordinate => (
+                            {[...nearbyLocations].map(propertyCoordinate => (
                                 <Marker
                                     key={propertyCoordinate.id}
                                     position={propertyCoordinate.location}
-                                    onClick={() => setoOpenInfoWindowMarkerCoordinates(propertyCoordinate.location)}
+                                    onClick={() => setOpenInfoWindowMarkerCoordinates(propertyCoordinate.location)}
                                 />
                             ))}
                             {openInfoWindowMarkerCoordinates && (
-                                <InfoWindow position={openInfoWindowMarkerCoordinates} onCloseClick={() => setoOpenInfoWindowMarkerCoordinates('')}>
-                                    <InfoWindowCard />
+                                <InfoWindow position={openInfoWindowMarkerCoordinates} onCloseClick={() => setOpenInfoWindowMarkerCoordinates('')}>
+                                    <InfoWindowCard
+                                        title="Small office - 3 Rooms"
+                                        price={890}
+                                        period="monthly"
+                                        mainRating={9.6}
+                                        votes={860}
+                                        dealRating={8}
+                                    />
                                 </InfoWindow>
                             )}
                         </GoogleMap>
-                    </LoadScript>
-                )}
-            </div>
-            <SearchSection />
+                    )}
+                </div>
+                <div className="sidebar-map">
+                    <SearchSection />
+                </div>
+            </LoadScript>
+            <PrimaryButton onClick={() => setMapView(!mapView)}>Change View</PrimaryButton>
         </div>
     );
 };
