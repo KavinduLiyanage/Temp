@@ -69,11 +69,11 @@ const InfoWindowCard = ({ title, price, period, mainRating, votes, dealRating })
 
 InfoWindowCard.propTypes = {
     title: PropTypes.string,
-    price: PropTypes.number,
+    price: PropTypes.string,
     period: PropTypes.string,
-    mainRating: PropTypes.number,
-    votes: PropTypes.number,
-    dealRating: PropTypes.number,
+    mainRating: PropTypes.string,
+    votes: PropTypes.string,
+    dealRating: PropTypes.string,
 };
 
 InfoWindowCard.defaultProps = {

@@ -15,10 +15,10 @@ import EventAvailableIcon from '@material-ui/icons/EventAvailable';
 import ApartmentIcon from '@material-ui/icons/Apartment';
 import { PrimaryButton } from '../../../components/common/buttons';
 import RangeSlider from './rangeSlider';
-import BasicDateRangePicker from './dateRangePicker';
-import SimpleSelecter from './selecter';
 import LocationSearchInput from './locationSearch';
+
 import Util from '../../../helpers/util';
+import { BasicDateRangePicker, DropdownSelecter } from '../../../components/common/searchHelper';
 
 const SearchSection = () => {
     const [dateDif, setDateDif] = useState('');
@@ -31,7 +31,6 @@ const SearchSection = () => {
         },
         validationSchema: Yup.object({}),
         onSubmit: values => {
-            console.log(JSON.stringify(values, null, 2));
             alert(JSON.stringify(values, null, 2));
         },
     });
@@ -85,7 +84,7 @@ const SearchSection = () => {
                             <ListItemAvatar>
                                 <ApartmentIcon className="Icon" />
                             </ListItemAvatar>
-                            <SimpleSelecter
+                            <DropdownSelecter
                                 id="what"
                                 name="what"
                                 onChange={formik.handleChange}
