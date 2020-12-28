@@ -13,14 +13,20 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import EventAvailableIcon from '@material-ui/icons/EventAvailable';
 import ApartmentIcon from '@material-ui/icons/Apartment';
+import { useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+// components
 import { PrimaryButton } from '../../../components/common/buttons';
 import RangeSlider from './rangeSlider';
-import LocationSearchInput from './locationSearch';
-
 import Util from '../../../helpers/util';
-import { BasicDateRangePicker, DropdownSelecter } from '../../../components/common/searchHelper';
+import { BasicDateRangePicker, DropdownSelecter, LocationSearchInput } from '../../../components/common/searchHelper';
 
 const SearchSection = () => {
+    const params = useParams();
+    var res = params.search.split('&');
+    console.log(res);
+
+    const history = useHistory();
     const [dateDif, setDateDif] = useState('');
 
     const formik = useFormik({
@@ -31,7 +37,19 @@ const SearchSection = () => {
         },
         validationSchema: Yup.object({}),
         onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
+            // alert(JSON.stringify(values, null, 2));
+            history.push(
+                '/spaces/what=' +
+                    values.what +
+                    '&lat=' +
+                    values.where.lat +
+                    '&lng=' +
+                    values.where.lng +
+                    '&startDate=' +
+                    values.when.startDate +
+                    '&endDate=' +
+                    values.when.endDate,
+            );
         },
     });
 
@@ -39,6 +57,11 @@ const SearchSection = () => {
         formik.handleChange(event);
 
         setDateDif(Util.getDateRangeDuration(event.target.value));
+    };
+
+    const clearAll = () => {
+        formik.resetForm();
+        setDateDif('');
     };
 
     return (
@@ -94,13 +117,17 @@ const SearchSection = () => {
                             />
                         </ListItem>
                     </List>
+                    <h6>Advanced features</h6>
+                    <hr className="devider" />
                     <List className="advanceSearchList">
                         <ListItem className="listItem">
                             <RangeSlider className="priceRange" />
                         </ListItem>
                     </List>
                     <div className="bottom">
-                        <h6>Clear all</h6>
+                        <h6 type="button" onClick={() => clearAll()}>
+                            Clear all
+                        </h6>
                         <div className="searchButtonDiv">
                             <PrimaryButton type="submit" className="searchButton">
                                 Search
